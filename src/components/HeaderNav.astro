@@ -1,0 +1,55 @@
+---
+const { menuItems } = Astro.props;
+---
+
+<nav class='header-nav' id='header_nav'>
+	<ul class='menu'>
+		{
+			menuItems.map((menuItem, index: number) => {
+				return (
+					<li class='menu-item'>
+						<button
+							type='button'
+							class='submenu-trigger'
+							aria-controls={`submenu_${index}`}
+							aria-expanded='false'>
+							{menuItem.text}
+							<svg
+								height='1em'
+								class='caret hide'
+								xmlns='http://www.w3.org/2000/svg'
+								viewBox='0 0 256 512'>
+								<path d='M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z' />
+							</svg>
+						</button>
+						{menuItem.subMenuItems &&
+							menuItem.subMenuItems.length > 0 && (
+								<ul class='submenu' id={`submenu_${index}`}>
+									{menuItem.subMenuItems.map(
+										(subMenuItem) => (
+											<li class='submenu-item'>
+												<a href={subMenuItem.link}>
+													{subMenuItem.text}
+												</a>
+											</li>
+										)
+									)}
+								</ul>
+							)}
+					</li>
+				);
+			})
+		}
+	</ul>
+</nav>
+
+<style lang='less'>
+	.header-nav {
+		.menu {
+			list-style: none;
+			.submenu {
+				list-style: none;
+			}
+		}
+	}
+</style>

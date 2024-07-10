@@ -1,0 +1,398 @@
+---
+import { getHeader } from '../../sanity/api';
+import { sanityUrl } from '../../sanity/image';
+
+import HeaderNav from './HeaderNav.astro';
+import Socials from './Socials.astro';
+
+const header = await getHeader();
+---
+
+<header>
+	<div class='above-header'>
+		<a class='button skip-link sr-only' href='#content'>Skip to content</a>
+		<div class='container'>
+			<a
+				href='/'
+				aria-label='Homepage Link'
+				class='header-logo'
+				title='Home'>
+				<img
+					src={sanityUrl(header.logo).auto('format').width(600).url()}
+					alt='K M V S Logo'
+					width='220'
+					height='42'
+				/>
+			</a>
+			<div class='aux-wrapper'>
+				<button
+					type='button'
+					id='search_trigger'
+					class='search-trigger'
+					title='Search'
+					aria-label='Search'
+					aria-controls='search_box'
+					aria-expanded='false'>
+					<svg
+						class='icon-search'
+						xmlns='http://www.w3.org/2000/svg'
+						height='1em'
+						viewBox='0 0 512 512'>
+						<path
+							d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'>
+						</path>
+					</svg>
+				</button>
+				<button
+					type='button'
+					id='translate_trigger'
+					class='translate-trigger'
+					title='Translate to Gujarati'
+					aria-label='Translate to Gujarati'>
+					GUJ
+				</button>
+				<Socials />
+			</div>
+		</div>
+	</div>
+	<div class='header'>
+		<div class='container'>
+			<button
+				type='button'
+				id='flyout_trigger'
+				class='flyout-trigger'
+				aria-label='Open Menu'
+				aria-controls='header_nav'
+				aria-expanded='false'>
+				<svg
+					height='1em'
+					class='icon-hamburger'
+					xmlns='http://www.w3.org/2000/svg'
+					viewBox='0 0 448 512'>
+					<path
+						d='M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z'>
+					</path>
+				</svg>
+				<svg
+					height='1em'
+					class='icon-close'
+					xmlns='http://www.w3.org/2000/svg'
+					viewBox='0 0 384 512'>
+					<path
+						d='M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z'
+					></path>
+				</svg>
+			</button>
+			{header.menuItems && <HeaderNav menuItems={header.menuItems} />}
+		</div>
+		<svg
+			class='divider'
+			xmlns='http://www.w3.org/2000/svg'
+			preserveAspectRatio='none'
+			viewBox='0 0 1282.95 69.54'>
+			<path
+				class='green'
+				d='M641.54,57.03c246.72,0,463.36-25.12,641.41-57.03H0c178.08,31.92,394.76,57.04,641.54,57.03Z'>
+			</path>
+			<path
+				class='gold'
+				d='M0,0v14c179.05,31.24,395.58,55.54,641.47,55.54s462.42-24.3,641.47-55.54V0c-179.06,31.24-395.58,55.54-641.47,55.54S179.05,31.24,0,0Z'>
+			</path>
+		</svg>
+	</div>
+</header>
+
+<script>
+	const flyoutTrigger = document.getElementById('flyout_trigger');
+	const headerNav = document.getElementById('header_nav');
+	flyoutTrigger.addEventListener('click', function () {
+		const expanded = this.getAttribute('aria-expanded') === 'true' || false;
+		this.setAttribute('aria-expanded', `${!expanded}`);
+		this.classList.toggle('active', !expanded);
+		headerNav.classList.toggle('active', !expanded);
+	});
+
+	const submenuButtons = document.querySelectorAll(
+		'.header .submenu-trigger'
+	);
+	// loop through each button
+	submenuButtons.forEach((button) => {
+		// get the parent list item
+		const parent = button.parentElement;
+
+		// add an event listener for mouse hover
+		button.addEventListener('mouseenter', function () {
+			this.setAttribute('aria-expanded', 'true');
+			parent.classList.add('open');
+		});
+
+		// add an event listener for mouse leaving
+		parent.addEventListener('mouseleave', function () {
+			button.setAttribute('aria-expanded', 'false');
+			this.classList.remove('open');
+		});
+
+		// add an event listener for focus
+		button.addEventListener('click', function () {
+			this.setAttribute('aria-expanded', 'true');
+			parent.classList.add('open');
+		});
+
+		// add an event listener for loss of focus
+		parent.addEventListener('focusout', function () {
+			// delay the changing of attribute to check if focus shifted within the submenu or outside
+			setTimeout(function () {
+				if (!parent.contains(document.activeElement)) {
+					button.setAttribute('aria-expanded', 'false');
+					parent.classList.remove('open');
+				}
+			}, 0);
+		});
+	});
+</script>
+
+<style lang='less'>
+	@import '../styles/variables.less';
+	header {
+		.above-header {
+			background-color: var(--bgC1);
+
+			.container {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: nowrap;
+				justify-content: space-between;
+				align-items: center;
+				padding-top: 12px;
+				padding-bottom: 12px;
+
+				.header-logo {
+					display: flex;
+					img {
+						@media @s-nm {
+							width: 260px;
+						}
+						@media @s-m {
+							width: 200px;
+						}
+					}
+				}
+				.aux-wrapper {
+					display: flex;
+					flex-direction: row;
+					flex-wrap: nowrap;
+
+					.search-trigger {
+						padding: 5px 10px;
+						margin-right: 10px;
+						border-right: 1px solid var(--bdC1);
+						margin-top: 3px;
+
+						svg {
+							height: 22px;
+							path {
+								fill: var(--color1);
+							}
+						}
+					}
+					.translate-trigger {
+						color: var(--textC3);
+						font-weight: 700;
+						font-size: 24px;
+						margin-top: 3px;
+
+						@media @s-d {
+							margin-right: 60px;
+						}
+					}
+
+					@media @s-nd {
+						:global(.social-links) {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
+</style>
+
+<style lang='less' is:global>
+	@import '../styles/variables.less';
+
+	.header {
+		background-color: var(--bgC2);
+		position: relative;
+
+		.container {
+			padding-top: 12px;
+			display: flex;
+			justify-content: flex-end;
+
+			@media @s-nd {
+				position: relative;
+
+				flex-direction: column;
+				align-items: center;
+			}
+
+			.flyout-trigger {
+				padding: 8px;
+				border: 2px solid var(--bdC2);
+				border-radius: var(--bdRadius1);
+				background-color: var(--bdC2);
+				margin: 5px;
+				height: max-content;
+				display: flex;
+
+				@media @s-d {
+					display: none;
+				}
+				path {
+					fill: var(--textC2);
+				}
+
+				&:not(.active) {
+					.icon-close {
+						display: none;
+					}
+				}
+
+				&.active {
+					.icon-hamburger {
+						display: none;
+					}
+				}
+			}
+
+			.header-nav {
+				color: var(--textC2);
+
+				@media @s-nd {
+					position: absolute;
+					top: 70px;
+					z-index: 2;
+
+					&:not(.active) {
+						display: none;
+					}
+				}
+
+				.menu {
+					display: flex;
+					flex-wrap: nowrap;
+
+					@media @s-d {
+						flex-direction: row;
+						gap: 50px;
+					}
+
+					@media @s-nd {
+						flex-direction: column;
+						align-items: center;
+						gap: 10px;
+						background-color: var(--color1);
+						border: 1px solid var(--bdC2);
+						border-radius: var(--bdRadius1);
+					}
+
+					font-size: 1.2em;
+
+					.menu-item {
+						position: relative;
+
+						@media @s-d {
+							&:last-child {
+								width: 200px;
+							}
+						}
+
+						@media @s-nd {
+							width: 200px;
+							text-align: center;
+						}
+
+						.submenu-trigger {
+							line-height: 1em;
+							padding: 12px 15px;
+							position: relative;
+
+							.caret {
+								position: absolute;
+								left: -10px;
+
+								@media @s-d {
+									display: none;
+								}
+								path {
+									fill: var(--textC2);
+								}
+							}
+						}
+						&:not(.open) {
+							.submenu {
+								display: none;
+							}
+						}
+
+						.submenu {
+							width: 200px;
+
+							@media @s-d {
+								background-color: var(--color1);
+
+								position: absolute;
+								left: 0;
+								z-index: 1;
+							}
+
+							@media @s-nd {
+								background-color: var(--bdC2);
+								font-size: 0.9em;
+							}
+
+							.submenu-item {
+								position: relative;
+								border-top: 0.75px solid var(--bdC2);
+
+								&:hover,
+								&:focus-visible {
+									background-color: var(--bdC2);
+								}
+								a {
+									text-decoration: none;
+									line-height: 1em;
+
+									display: block;
+									padding: 12px 15px;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.divider {
+			position: absolute;
+			bottom: auto;
+			left: 0;
+			width: 100%;
+
+			@media @s-d {
+				height: 60px;
+			}
+			@media @s-nd {
+				height: 40px;
+			}
+
+			.green {
+				fill: var(--color1);
+			}
+			.gold {
+				fill: var(--color2);
+				margin-top: -2px;
+			}
+		}
+	}
+</style>

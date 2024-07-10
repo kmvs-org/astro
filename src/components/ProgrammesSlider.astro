@@ -1,0 +1,102 @@
+---
+import { getProgrammesShort } from '../../sanity/api';
+import { sanityUrl } from '../../sanity/image';
+import slugify from 'slugify';
+
+const programmes = await getProgrammesShort();
+
+const slug = (title) => slugify(title, { lower: true, strict: true });
+---
+
+<section class='programmes'>
+	<div class='container'>
+		<h2 class='heading'>What We Do</h2>
+		<div class='slider-wrapper'>
+			<button
+				class='previous-slide'
+				type='button'
+				aria-label='Show previous slide'>
+				<svg
+					height='1em'
+					class='icon-caret-left'
+					xmlns='http://www.w3.org/2000/svg'
+					viewBox='0 0 256 512'>
+					<path
+						d='M9.4 278.6c-12.5-12.5-12.5-32.8 0-45.3l128-128c9.2-9.2 22.9-11.9 34.9-6.9s19.8 16.6 19.8 29.6l0 256c0 12.9-7.8 24.6-19.8 29.6s-25.7 2.2-34.9-6.9l-128-128z'
+					></path>
+				</svg>
+			</button>
+			<div class='slider'>
+				{
+					programmes.map((programme) => {
+						return (
+							<a
+								class='slide'
+								href={`/programmes/${slug(programme.title)}`}>
+								<img
+									class='image'
+									src={sanityUrl(programme.image)
+										.size(800, 1000)
+										.auto('format')
+										.url()}
+									alt={programme.image.alt}
+								/>
+								<p class='title'>{programme.title}</p>
+								<p class='excerpt'>{programme.excerpt}</p>
+							</a>
+						);
+					})
+				}
+			</div>
+			<button
+				class='next-slide'
+				type='button'
+				aria-label='Show next slide'>
+				<svg
+					height='1em'
+					class='icon-caret-right'
+					xmlns='http://www.w3.org/2000/svg'
+					viewBox='0 0 256 512'>
+					<path
+						d='M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z'
+					></path>
+				</svg>
+			</button>
+		</div>
+	</div>
+</section>
+
+<style lang='less'>
+	@import '../styles/variables.less';
+
+	.programmes {
+		.container {
+			padding-bottom: 75px;
+
+			.slider-wrapper {
+				.slider {
+					.slide {
+						.title {
+							font-size: 32px;
+							width: 100%;
+							background-color: var(--color3);
+							color: var(--textC2);
+							text-align: center;
+							line-height: 1;
+							padding: 12px 15px 10px 15px;
+							border-radius: var(--bdRadius1);
+							margin-bottom: 0;
+						}
+						.excerpt {
+							font-size: 1.1em;
+							color: var(--color2);
+							text-align: center;
+							padding: 0 15px;
+							margin-bottom: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+</style>

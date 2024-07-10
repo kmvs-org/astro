@@ -1,0 +1,54 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/main.less';
+import { getSeoDetails } from '../../sanity/api';
+
+// Import environment variables
+const baseUrl = import.meta.env.SITE_URL;
+const currentPath = Astro.url.pathname; // Current page path
+const fullUrl = `${baseUrl}${currentPath}`; // Full URL of the current page
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	reload?: boolean;
+}
+
+const siteDetails = await getSeoDetails();
+const {
+	title = siteDetails.title,
+	description = siteDetails.tagline,
+	image = `${baseUrl}/favicon.png`,
+	reload = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta name='description' content={siteDetails.tagline} />
+		<meta name='viewport' content='width=device-width' />
+		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+		<link rel='manifest' href='/site.webmanifest' />
+		<!-- Open Graph Tags -->
+		<meta property='og:type' content='website' />
+		<meta property='og:title' content={title} />
+		<meta property='og:site_name' content={siteDetails.title} />
+		<meta property='og:description' content={description} />
+		<meta property='og:image' content={image} />
+		<meta property='og:url' content={fullUrl} />
+		<title>{title}</title>
+		{!reload && <ViewTransitions />}
+	</head>
+	<body>
+		<Header />
+		<main id='content' tabindex='-1'>
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>

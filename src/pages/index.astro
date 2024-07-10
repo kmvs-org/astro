@@ -1,16 +1,103 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import { getHomepage } from '../../sanity/api';
+import { sanityUrl } from '../../sanity/image';
+import ProgrammesSlider from '../components/ProgrammesSlider.astro';
+import ImpactSlides from '../components/ImpactSlides.astro';
+import EventsSlider from '../components/EventsSlider.astro';
 
+const homepage = await getHomepage();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+	<section
+		class='banner'
+		style=`background-image: url(${sanityUrl(homepage.image).size(1200, 620).auto('format').url()})`>
+		<div class='container'>
+			<p class='tagline' set:html={homepage.tagline} />
+		</div>
+	</section>
+	<section class='about'>
+		<div class='container'>
+			<p set:html={homepage.about} />
+		</div>
+	</section>
+	<ProgrammesSlider />
+	<ImpactSlides impact={homepage.impact} />
+	<EventsSlider />
+</Layout>
+
+<script>
+	const sliderWrappers = document.querySelectorAll('.slider-wrapper');
+	sliderWrappers.forEach((sliderWrapper) => {
+		const previousSlide = sliderWrapper.querySelector('.previous-slide');
+		const nextSlide = sliderWrapper.querySelector('.next-slide');
+
+		previousSlide?.addEventListener('click', () => {
+			const slider = sliderWrapper.querySelector('.slider');
+			const slides = slider.children;
+			const lastSlide = slides[slides.length - 1];
+			slider.insertBefore(lastSlide, slides[0]);
+		});
+
+		nextSlide?.addEventListener('click', () => {
+			const slider = sliderWrapper.querySelector('.slider');
+			const firstSlide = slider.children[0];
+			slider.appendChild(firstSlide);
+		});
+	});
+</script>
+
+<style lang='less'>
+	@import '../styles/variables.less';
+
+	.banner {
+		min-height: 650px;
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center;
+
+		.container {
+			padding-top: 200px;
+
+			.tagline {
+				font-weight: 700;
+				white-space: pre-wrap;
+				text-align: right;
+				color: var(--textC2);
+				margin-bottom: 0;
+
+				@media @s-nm {
+					font-size: 40px;
+				}
+				@media @s-m {
+					font-size: 30px;
+				}
+
+				:global(.highlight) {
+					background-color: var(--color3);
+					padding: 9px 14px 5px 14px;
+					border-radius: var(--bdRadius1);
+				}
+				:global(.small) {
+					font-size: 0.9em;
+				}
+			}
+		}
+	}
+
+	.about {
+		.container {
+			padding-top: 75px;
+			padding-bottom: 75px;
+			p {
+				max-width: 800px;
+				margin: auto;
+				font-family: 'Times New Roman', Times, serif;
+				font-size: 1.5em;
+				line-height: 1.6;
+				text-align: center;
+			}
+		}
+	}
+</style>

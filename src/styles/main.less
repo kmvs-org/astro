@@ -1,0 +1,456 @@
+// out: false
+/*************************************
+Variables
+**************************************/
+
+:root {
+	--fontSize: 18px;
+	--fontFamily1: 'Calibri';
+	--fontFamily2: 'Roboto Slab';
+	--color1: hsl(160, 13%, 33%);
+	--color2: hsl(31, 43%, 38%);
+	--color3: hsl(333, 57%, 41%);
+	--bgC1: hsl(0, 0%, 100%);
+	--bgC2: hsl(160, 13%, 33%);
+	--bgC3: hsl(31, 43%, 38%);
+	--textC1: hsl(0, 0%, 0%);
+	--textC2: hsl(0, 0%, 100%);
+	--textC3: hsl(160, 13%, 33%);
+	--bdC1: hsla(0, 0%, 10%, 0.12);
+	--bdC2: hsla(0, 0%, 100%, 0.09);
+	--overlayC1: hsla(0, 0%, 0%, 0.2);
+	--buttonBgC1: var(--color1);
+	--buttonTextC1: var(--textC2);
+	--buttonBgC2: var(--color1);
+	--bdRadius1: 5px;
+	--shadow1: 0 3px 8px -2px #1a1a1a30;
+}
+
+@import './variables.less';
+
+/*************************************
+Basic Styling
+**************************************/
+
+* {
+	margin: unset;
+	padding: unset;
+	box-sizing: border-box;
+}
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+body {
+	font-family: var(--fontFamily1), Helvetica, sans-serif;
+	font-size: var(--fontSize);
+	color: var(--textC1);
+	line-height: 1.5;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100lvh;
+
+	background-color: var(--bgC1);
+
+	.container {
+		max-width: 1300px;
+		margin-left: auto;
+		margin-right: auto;
+
+		@media @s-nm {
+			padding-left: 50px;
+			padding-right: 50px;
+		}
+		@media @s-m {
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+	}
+
+	.text-block {
+		white-space: pre-line;
+	}
+}
+
+each(range(9), {
+    @weight: (@value*100);
+
+    .w-@{weight} {
+        font-weight: @weight;
+    }
+});
+
+.hide {
+	display: none !important;
+}
+
+each(range(6), {
+    @size: 41px - @value * 3px;
+
+    h@{value} {
+        font-size: @size;
+        font-family: var(--fontFamily2), 'Courier New', Courier, monospace;
+        font-weight: 700;
+        margin-bottom: 15px;
+        word-break: break-word;
+
+        @media @s-m {
+            font-size: min(@size, 32px);
+        }
+    }
+});
+
+a {
+	color: inherit;
+	text-underline-offset: 3px;
+	text-decoration-thickness: 1.5px;
+	transition: 0.2s ease;
+
+	&:hover,
+	&:focus-visible {
+		text-decoration-thickness: 3px;
+	}
+}
+
+p {
+	margin-bottom: 15px;
+}
+
+body {
+	.generate-spacing(5);
+}
+
+.generate-spacing(@n, @i: 0) when (@i =< @n) {
+	@spacingSize: @i*10;
+
+	.mb_@{spacingSize} {
+		margin-bottom: ~'@{spacingSize}px';
+	}
+
+	.generate-spacing(@n, (@i + 1));
+}
+
+/*************************************
+Homepage Styling
+**************************************/
+
+.heading {
+	font-weight: 400;
+	color: var(--color1);
+	margin-bottom: 50px;
+
+	@media @s-d {
+		font-size: 80px;
+	}
+	@media @s-t {
+		font-size: 60px;
+	}
+	@media @s-m {
+		font-size: 40px;
+	}
+}
+
+.slider-wrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	@media @s-nm {
+		gap: 20px;
+	}
+	@media @s-m {
+		gap: 10px;
+	}
+
+	.previous-slide {
+		@media @s-d {
+			margin-top: 200px;
+		}
+		@media @s-nd {
+			margin-top: 180px;
+		}
+		margin-top: 200px;
+		.icon-caret-left {
+			height: 50px;
+			width: 25px;
+
+			path {
+				fill: var(--color1);
+			}
+		}
+	}
+	.next-slide {
+		@media @s-d {
+			margin-top: 200px;
+		}
+		@media @s-nd {
+			margin-top: 180px;
+		}
+		.icon-caret-right {
+			height: 50px;
+			width: 25px;
+
+			path {
+				fill: var(--color1);
+			}
+		}
+	}
+
+	.slider {
+		width: max-content;
+		margin: auto;
+		display: flex;
+		flex-direction: row;
+		gap: 50px;
+
+		.slide {
+			@media (min-width: 1201px) {
+				min-width: 300px;
+				width: 300px;
+				max-width: 300px;
+				&:not(:first-child):not(:nth-child(2)):not(:nth-child(3)) {
+					display: none;
+				}
+			}
+			@media (min-width: 801px) and (max-width: 1200px) {
+				min-width: 280px;
+				width: 280px;
+				max-width: 280px;
+				&:not(:first-child):not(:nth-child(2)) {
+					display: none;
+				}
+			}
+			@media (max-width: 800px) {
+				min-width: 250px;
+				width: 250px;
+				max-width: 250px;
+				&:not(:first-child) {
+					display: none;
+				}
+			}
+
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+
+			text-decoration: none;
+			transform: scale(1);
+			transition: transform 0.2s ease-out;
+
+			&:hover,
+			&:focus-visible {
+				transform: scale(1.05);
+			}
+
+			.image {
+				border-radius: var(--bdRadius1);
+				overflow: hidden;
+			}
+		}
+	}
+}
+
+/*************************************
+Input Styling
+**************************************/
+
+.form-group {
+	margin-bottom: 20px;
+}
+
+input {
+	&[type='text'],
+	&[type='email'] {
+		width: 275px;
+		background-color: var(--bgC1);
+		border-radius: var(--bdRadius1);
+		border: 1px solid var(--bdC1);
+		padding: 10px 15px;
+		font-size: var(--fontSize);
+		font-family: var(--fontFamily1);
+		color: var(--textC1);
+	}
+}
+
+textarea {
+	width: 275px;
+	background-color: var(--bgC1);
+	border-radius: var(--bdRadius1);
+	border: 1px solid var(--bdC1);
+	padding: 10px 15px;
+	font-size: var(--fontSize);
+	font-family: var(--fontFamily1);
+	color: var(--textC1);
+	resize: none;
+}
+
+html.contrast {
+	::placeholder {
+		opacity: 0.9;
+	}
+}
+
+.buttonMixin {
+	appearance: none;
+	font-size: inherit;
+	font-family: inherit;
+	color: inherit;
+	background-color: transparent;
+	font-weight: 500;
+	line-height: 1;
+	border: none;
+	cursor: pointer;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+button {
+	.buttonMixin();
+}
+
+button[type='submit'],
+.button,
+input[type='submit'] {
+	.buttonMixin();
+
+	color: var(--buttonTextC1);
+	background-color: var(--buttonBgC1);
+	font-family: var(--fontFamily1);
+	border-radius: var(--bdRadius1);
+	padding: 13px 20px;
+
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+
+	svg {
+		path {
+			fill: var(--buttonTextC1);
+		}
+	}
+}
+
+/******************************
+Accessibility
+*******************************/
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
+.skip-link {
+	position: fixed;
+
+	&:focus-visible {
+		clip: auto !important;
+		position: fixed;
+		top: 5px;
+		left: 5px;
+		width: auto;
+		height: auto;
+		margin: 0;
+		padding: 13px 20px;
+		z-index: 100;
+	}
+}
+
+/*************************************
+Fonts
+**************************************/
+
+@font-face {
+	font-family: 'Calibri';
+	src:
+		local('Calibri Light Italic'),
+		local('Calibri-LightItalic'),
+		url('/fonts/Calibri-LightItalic.woff2') format('woff2'),
+		url('/fonts/Calibri-LightItalic.woff') format('woff');
+	font-weight: 300;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Calibri';
+	src:
+		local('Calibri Italic'),
+		local('Calibri-Italic'),
+		url('/fonts/Calibri-Italic.woff2') format('woff2'),
+		url('/fonts/Calibri-Italic.woff') format('woff');
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Calibri';
+	src:
+		local('Calibri Light'),
+		local('Calibri-Light'),
+		url('/fonts/Calibri-Light.woff2') format('woff2'),
+		url('/fonts/Calibri-Light.woff') format('woff');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Calibri';
+	src:
+		local('Calibri Bold'),
+		local('Calibri-Bold'),
+		url('/fonts/Calibri-Bold.woff2') format('woff2'),
+		url('/fonts/Calibri-Bold.woff') format('woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Calibri';
+	src:
+		local('Calibri'),
+		url('/fonts/Calibri.woff2') format('woff2'),
+		url('/fonts/Calibri.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Calibri';
+	src:
+		local('Calibri Bold Italic'),
+		local('Calibri-BoldItalic'),
+		url('Calibri-BoldItalic.woff2') format('woff2'),
+		url('Calibri-BoldItalic.woff') format('woff');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Roboto Slab';
+	font-style: normal;
+	font-weight: 400;
+	src:
+		url('/fonts/roboto-slab-v34-latin-regular.woff2') format('woff2'),
+		url('/fonts/roboto-slab-v34-latin-regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Roboto Slab';
+	font-style: normal;
+	font-weight: 700;
+	src:
+		url('/fonts/roboto-slab-v34-latin-700.woff2') format('woff2'),
+		url('/fonts/roboto-slab-v34-latin-700.ttf') format('truetype');
+}
