@@ -37,8 +37,17 @@ const { impact } = Astro.props;
 
 	.impact {
 		margin-bottom: 75px;
+		overflow: hidden;
 		.divider {
-			width: 100%;
+			@media @s-d {
+				width: 100%;
+			}
+			@media @s-t {
+				width: 150%;
+			}
+			@media @s-m {
+				width: 250%;
+			}
 			height: 50px;
 			display: flex;
 			path {
