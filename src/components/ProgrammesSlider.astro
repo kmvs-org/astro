@@ -32,7 +32,7 @@ const slug = (title) => slugify(title, { lower: true, strict: true })
 						return (
 							<a
 								class='slide'
-								href={`/programmes/${slug(programme.title)}`}>
+								href={`/programmes/${slug(programme.title)}/`}>
 								<img
 									class='image'
 									src={sanityUrl(programme.image)
