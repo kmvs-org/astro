@@ -1,0 +1,161 @@
+---
+import { getProgrammes } from '../../../sanity/api'
+import slugify from 'slugify'
+import Layout from '../../layouts/Layout.astro'
+import { sanityUrl } from '../../../sanity/image'
+import PortableText from '../../components/portabletext/PortableText.astro'
+
+export async function getStaticPaths() {
+	const programmes = await getProgrammes()
+
+	return programmes.map((programme) => {
+		return {
+			params: {
+				slug: slugify(programme.title, { lower: true, strict: true }),
+			},
+			props: { ...programme },
+		}
+	})
+}
+
+interface Props {
+	title: string
+	image: any
+	excerpt: string
+	banner: any
+}
+
+const { title, image, excerpt, banner, content } = Astro.props
+const image_url = image
+	? sanityUrl(image).size(1000, 1000).auto('format').url()
+	: ''
+const banner_image_url = banner?.image
+	? sanityUrl(banner.image).size(1200, 620).auto('format').url()
+	: ''
+const color1 =
+	title == 'Hello Sakhi'
+		? 'purple'
+		: title == 'Sushasini'
+			? 'green'
+			: title == 'Yuva Vani' || 'Yuvavani'
+				? 'orange'
+				: 'green'
+const color2 =
+	title == 'Hello Sakhi'
+		? 'gold'
+		: title == 'Sushasini'
+			? 'pink'
+			: title == 'Yuva Vani' || 'Yuvavani'
+				? 'blue'
+				: 'gold'
+const color3 =
+	title == 'Hello Sakhi'
+		? 'gold'
+		: title == 'Sushasini'
+			? 'green'
+			: title == 'Yuva Vani' || 'Yuvavani'
+				? 'blue'
+				: 'pink'
+---
+
+<Layout
+	title={title}
+	description={excerpt}
+	image={image_url}
+	header_title={title}
+	header_color1={color1}
+	header_color2={color2}
+	footer_color1={color3}>
+	<section class='banner'>
+		<div class='image' style={`background-image: url(${banner_image_url})`}>
+		</div>
+		<div class='tagline' style={`background-color: var(--${color2});`}>
+			<div class='container'>
+				<p class='title'>{banner?.title}</p>
+				<p class='subtitle'>{banner?.subtitle}</p>
+			</div>
+			<svg
+				preserveAspectRatio='none'
+				class='divider'
+				xmlns='http://www.w3.org/2000/svg'
+				viewBox='0 0 793.42 61.87'>
+				<path
+					class='cls-1'
+					d='M406.78,56.6C237.43,57.81,97.61,28.44,0,0v61.87h793.42V0c-94.49,27.53-226.95,55.47-386.63,56.6Z'>
+				</path>
+			</svg>
+		</div>
+	</section>
+	<section class='content'>
+		<div class='container my_50'>
+			<PortableText {content} />
+		</div>
+	</section>
+</Layout>
+
+<style lang='less'>
+	@import '../../styles/variables.less';
+
+	.banner {
+		.image {
+			min-height: 650px;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: top center;
+		}
+
+		.tagline {
+			position: relative;
+			color: var(--textC2);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+
+			.title {
+				font-family: var(--fontFamily2);
+				font-weight: 700;
+				margin-top: 20px;
+				margin-bottom: 10px;
+
+				@media @s-nm {
+					font-size: 30px;
+				}
+				@media @s-m {
+					font-size: 22px;
+				}
+			}
+
+			.subtitle {
+				font-family: var(--fontFamily2);
+				margin-bottom: 50px;
+
+				@media @s-nm {
+					font-size: 1.4em;
+				}
+				@media @s-m {
+					font-size: 1em;
+				}
+			}
+
+			.divider {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				transform: translateY(2px);
+
+				@media @s-nm {
+					height: 60px;
+				}
+				@media @s-m {
+					height: 40px;
+				}
+
+				path {
+					fill: var(--bgC1);
+				}
+			}
+		}
+	}
+</style>
