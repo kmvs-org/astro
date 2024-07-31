@@ -1,14 +1,15 @@
 ---
-import { getHeader } from '../../sanity/api';
-import { sanityUrl } from '../../sanity/image';
+import { getHeader } from '../../sanity/api'
+import { sanityUrl } from '../../sanity/image'
 
-import HeaderNav from './HeaderNav.astro';
-import Socials from './Socials.astro';
+import HeaderNav from './HeaderNav.astro'
+import Socials from './Socials.astro'
 
-const header = await getHeader();
+const header = await getHeader()
+const { title, color1, color2 } = Astro.props
 ---
 
-<header>
+<header style={`--color1: var(--${color1}); --color2: var(--${color2})`}>
 	<div class='above-header'>
 		<a class='button skip-link sr-only' href='#content'>Skip to content</a>
 		<div class='container'>
@@ -79,80 +80,110 @@ const header = await getHeader();
 					xmlns='http://www.w3.org/2000/svg'
 					viewBox='0 0 384 512'>
 					<path
-						d='M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z'
-					></path>
+						d='M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z'>
+					</path>
 				</svg>
 			</button>
 			{header.menuItems && <HeaderNav menuItems={header.menuItems} />}
 		</div>
-		<svg
-			class='divider'
-			xmlns='http://www.w3.org/2000/svg'
-			preserveAspectRatio='none'
-			viewBox='0 0 1282.95 69.54'>
-			<path
-				class='green'
-				d='M641.54,57.03c246.72,0,463.36-25.12,641.41-57.03H0c178.08,31.92,394.76,57.04,641.54,57.03Z'>
-			</path>
-			<path
-				class='gold'
-				d='M0,0v14c179.05,31.24,395.58,55.54,641.47,55.54s462.42-24.3,641.47-55.54V0c-179.06,31.24-395.58,55.54-641.47,55.54S179.05,31.24,0,0Z'>
-			</path>
-		</svg>
+		{
+			title ? (
+				<div class='divider-wrapper title-wrapper'>
+					<svg
+						class='divider'
+						xmlns='http://www.w3.org/2000/svg'
+						preserveAspectRatio='none'
+						viewBox='0 0 1283 160.56'>
+						<path
+							style={`fill: var(--${color2})`}
+							d='M1283,111.71c-180.47,29.26-394.71,48.5-635.86,48.84-245.9.35-464.03-18.22-647.14-47.9V.88h1283v110.83Z'
+						/>
+						<path
+							style={`fill: var(--${color1})`}
+							d='M1283,3.83c-180.47,29.26-394.71,48.5-635.86,48.84C401.24,53.02,183.11,34.45,0,4.77V0h1283v3.83Z'
+						/>
+					</svg>
+					<span class='title'>{title}</span>
+				</div>
+			) : (
+				<div class='divider-wrapper'>
+					<svg
+						class='divider'
+						xmlns='http://www.w3.org/2000/svg'
+						preserveAspectRatio='none'
+						viewBox='0 0 1282.95 69.54'>
+						<path
+							style={`fill: var(--${color1})`}
+							d='M641.54,57.03c246.72,0,463.36-25.12,641.41-57.03H0c178.08,31.92,394.76,57.04,641.54,57.03Z'
+						/>
+						<path
+							style={`fill: var(--${color2})`}
+							d='M0,0v14c179.05,31.24,395.58,55.54,641.47,55.54s462.42-24.3,641.47-55.54V0c-179.06,31.24-395.58,55.54-641.47,55.54S179.05,31.24,0,0Z'
+						/>
+					</svg>
+				</div>
+			)
+		}
 	</div>
 </header>
 
 <script>
-	const flyoutTrigger = document.getElementById('flyout_trigger');
-	const headerNav = document.getElementById('header_nav');
-	flyoutTrigger.addEventListener('click', function () {
-		const expanded = this.getAttribute('aria-expanded') === 'true' || false;
-		this.setAttribute('aria-expanded', `${!expanded}`);
-		this.classList.toggle('active', !expanded);
-		headerNav.classList.toggle('active', !expanded);
-	});
+	document.addEventListener('astro:page-load', setupHeader)
 
-	const submenuButtons = document.querySelectorAll(
-		'.header .submenu-trigger'
-	);
-	// loop through each button
-	submenuButtons.forEach((button) => {
-		// get the parent list item
-		const parent = button.parentElement;
+	function setupHeader() {
+		const flyoutTrigger = document.getElementById('flyout_trigger')
+		const headerNav = document.getElementById('header_nav')
+		flyoutTrigger.addEventListener('click', function () {
+			const expanded =
+				this.getAttribute('aria-expanded') === 'true' || false
+			this.setAttribute('aria-expanded', `${!expanded}`)
+			this.classList.toggle('active', !expanded)
+			headerNav.classList.toggle('active', !expanded)
+		})
 
-		// add an event listener for mouse hover
-		button.addEventListener('mouseenter', function () {
-			this.setAttribute('aria-expanded', 'true');
-			parent.classList.add('open');
-		});
+		const submenuButtons = document.querySelectorAll(
+			'.header .submenu-trigger',
+		)
+		// loop through each button
+		submenuButtons.forEach((button) => {
+			// get the parent list item
+			const parent = button.parentElement
 
-		// add an event listener for mouse leaving
-		parent.addEventListener('mouseleave', function () {
-			button.setAttribute('aria-expanded', 'false');
-			this.classList.remove('open');
-		});
+			// add an event listener for mouse hover
+			button.addEventListener('mouseenter', function () {
+				this.setAttribute('aria-expanded', 'true')
+				parent.classList.add('open')
+			})
 
-		// add an event listener for focus
-		button.addEventListener('click', function () {
-			this.setAttribute('aria-expanded', 'true');
-			parent.classList.add('open');
-		});
+			// add an event listener for mouse leaving
+			parent.addEventListener('mouseleave', function () {
+				button.setAttribute('aria-expanded', 'false')
+				this.classList.remove('open')
+			})
 
-		// add an event listener for loss of focus
-		parent.addEventListener('focusout', function () {
-			// delay the changing of attribute to check if focus shifted within the submenu or outside
-			setTimeout(function () {
-				if (!parent.contains(document.activeElement)) {
-					button.setAttribute('aria-expanded', 'false');
-					parent.classList.remove('open');
-				}
-			}, 0);
-		});
-	});
+			// add an event listener for focus
+			button.addEventListener('click', function () {
+				this.setAttribute('aria-expanded', 'true')
+				parent.classList.add('open')
+			})
+
+			// add an event listener for loss of focus
+			parent.addEventListener('focusout', function () {
+				// delay the changing of attribute to check if focus shifted within the submenu or outside
+				setTimeout(function () {
+					if (!parent.contains(document.activeElement)) {
+						button.setAttribute('aria-expanded', 'false')
+						parent.classList.remove('open')
+					}
+				}, 0)
+			})
+		})
+	}
 </script>
 
 <style lang='less'>
 	@import '../styles/variables.less';
+
 	header {
 		.above-header {
 			background-color: var(--bgC1);
@@ -168,6 +199,7 @@ const header = await getHeader();
 
 				.header-logo {
 					display: flex;
+
 					img {
 						@media @s-nm {
 							width: 260px;
@@ -177,6 +209,7 @@ const header = await getHeader();
 						}
 					}
 				}
+
 				.aux-wrapper {
 					display: flex;
 					flex-direction: row;
@@ -190,13 +223,15 @@ const header = await getHeader();
 
 						svg {
 							height: 22px;
+
 							path {
 								fill: var(--color1);
 							}
 						}
 					}
+
 					.translate-trigger {
-						color: var(--textC3);
+						color: var(--color1);
 						font-weight: 700;
 						font-size: 24px;
 						margin-top: 3px;
@@ -221,7 +256,7 @@ const header = await getHeader();
 	@import '../styles/variables.less';
 
 	.header {
-		background-color: var(--bgC2);
+		background-color: var(--color1);
 		position: relative;
 
 		.container {
@@ -248,6 +283,7 @@ const header = await getHeader();
 				@media @s-d {
 					display: none;
 				}
+
 				path {
 					fill: var(--textC2);
 				}
@@ -324,11 +360,13 @@ const header = await getHeader();
 								@media @s-d {
 									display: none;
 								}
+
 								path {
 									fill: var(--textC2);
 								}
 							}
 						}
+
 						&:not(.open) {
 							.submenu {
 								display: none;
@@ -359,6 +397,7 @@ const header = await getHeader();
 								&:focus-visible {
 									background-color: var(--bdC2);
 								}
+
 								a {
 									text-decoration: none;
 									line-height: 1em;
@@ -373,25 +412,75 @@ const header = await getHeader();
 			}
 		}
 
-		.divider {
+		.divider-wrapper {
 			position: absolute;
 			bottom: auto;
 			left: 0;
 			width: 100%;
 
-			@media @s-d {
-				height: 60px;
-			}
-			@media @s-nd {
-				height: 40px;
+			.divider {
+				width: 100%;
+
+				.green {
+					fill: var(--color1);
+				}
+
+				.gold {
+					fill: var(--color2);
+				}
+
+				.pink {
+					fill: var(--color3);
+				}
+
+				.purple {
+					fill: var(--color3);
+				}
 			}
 
-			.green {
-				fill: var(--color1);
+			&:not(.title-wrapper) {
+				.divider {
+					@media @s-d {
+						height: 60px;
+					}
+					@media @s-nd {
+						height: 40px;
+					}
+				}
 			}
-			.gold {
-				fill: var(--color2);
-				margin-top: -2px;
+
+			&.title-wrapper {
+				display: flex;
+				justify-content: center;
+				align-items: flex-end;
+
+				.divider {
+					@media @s-d {
+						height: 130px;
+					}
+					@media @s-nd {
+						height: 110px;
+					}
+				}
+
+				.title {
+					position: absolute;
+					color: var(--textC2);
+					font-family: var(--fontFamily2);
+
+					@media @s-d {
+						font-size: 40px;
+						margin-bottom: 18px;
+					}
+					@media @s-t {
+						font-size: 35px;
+						margin-bottom: 16px;
+					}
+					@media @s-m {
+						font-size: 30px;
+						margin-bottom: 16px;
+					}
+				}
 			}
 		}
 	}

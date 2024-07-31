@@ -1,11 +1,11 @@
 ---
-import { getEventsShort } from '../../sanity/api';
-import { sanityUrl } from '../../sanity/image';
-import slugify from 'slugify';
+import { getEventsShort } from '../../sanity/api'
+import { sanityUrl } from '../../sanity/image'
+import slugify from 'slugify'
 
-const slug = (title) => slugify(title, { lower: true, strict: true });
+const slug = (title) => slugify(title, { lower: true, strict: true })
 
-const events = await getEventsShort();
+const events = await getEventsShort()
 ---
 
 <section class='events'>
@@ -44,7 +44,7 @@ const events = await getEventsShort();
 								<p class='title'>{event.title}</p>
 								<p class='excerpt'>{event.excerpt}</p>
 							</a>
-						);
+						)
 					})
 				}
 			</div>
@@ -78,17 +78,20 @@ const events = await getEventsShort();
 				.next-slide {
 					margin-top: 100px;
 				}
+
 				.slider {
 					.slide {
 						gap: 15px;
+
 						.title {
-							color: var(--color3);
+							color: var(--pink);
 							font-size: 1.2em;
 							line-height: 1;
 							margin-bottom: 0;
 						}
+
 						.excerpt {
-							color: var(--color2);
+							color: var(--gold);
 							margin-bottom: 0;
 						}
 					}

@@ -1,0 +1,60 @@
+---
+import { PortableText as PortableTextInternal } from 'astro-portabletext'
+import Button from './Button.astro'
+import Spotlight from './Spotlight.astro'
+import Grid from './Grid.astro'
+import Quote from './Quote.astro'
+
+const { content } = Astro.props
+
+const components = {
+	type: {
+		button: Button,
+		spotlight: Spotlight,
+		grid: Grid,
+		quote: Quote,
+	},
+}
+---
+
+<div class='portable-text'>
+	<PortableTextInternal value={content} {components} />
+</div>
+
+<style lang='less' is:global>
+	.portable-text {
+		> p {
+			font-size: 1.2em;
+		}
+
+		.spotlight p {
+			font-size: 1.2em;
+		}
+
+		.grid {
+			p {
+				font-size: inherit;
+			}
+		}
+
+		p {
+			font-family: var(--fontFamily2);
+			font-weight: 300;
+			line-height: 2;
+			white-space: pre-line;
+
+			&:empty {
+				height: 1em;
+			}
+		}
+
+		strong {
+			font-weight: 600;
+			font-size: 1.1em;
+		}
+
+		b {
+			font-weight: 600;
+		}
+	}
+</style>

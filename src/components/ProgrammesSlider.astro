@@ -1,11 +1,11 @@
 ---
-import { getProgrammesShort } from '../../sanity/api';
-import { sanityUrl } from '../../sanity/image';
-import slugify from 'slugify';
+import { getProgrammesShort } from '../../sanity/api'
+import { sanityUrl } from '../../sanity/image'
+import slugify from 'slugify'
 
-const programmes = await getProgrammesShort();
+const programmes = await getProgrammesShort()
 
-const slug = (title) => slugify(title, { lower: true, strict: true });
+const slug = (title) => slugify(title, { lower: true, strict: true })
 ---
 
 <section class='programmes'>
@@ -44,7 +44,7 @@ const slug = (title) => slugify(title, { lower: true, strict: true });
 								<p class='title'>{programme.title}</p>
 								<p class='excerpt'>{programme.excerpt}</p>
 							</a>
-						);
+						)
 					})
 				}
 			</div>
@@ -79,7 +79,7 @@ const slug = (title) => slugify(title, { lower: true, strict: true });
 						.title {
 							font-size: 32px;
 							width: 100%;
-							background-color: var(--color3);
+							background-color: var(--pink);
 							color: var(--textC2);
 							text-align: center;
 							line-height: 1;
@@ -87,9 +87,10 @@ const slug = (title) => slugify(title, { lower: true, strict: true });
 							border-radius: var(--bdRadius1);
 							margin-bottom: 0;
 						}
+
 						.excerpt {
 							font-size: 1.1em;
-							color: var(--color2);
+							color: var(--gold);
 							text-align: center;
 							padding: 0 15px;
 							margin-bottom: 0;

@@ -1,29 +1,37 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/main.less';
-import { getSeoDetails } from '../../sanity/api';
+import { ViewTransitions } from 'astro:transitions'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import '../styles/main.less'
+import { getSeoDetails } from '../../sanity/api'
 
 // Import environment variables
-const baseUrl = import.meta.env.SITE_URL;
-const currentPath = Astro.url.pathname; // Current page path
-const fullUrl = `${baseUrl}${currentPath}`; // Full URL of the current page
+const baseUrl = import.meta.env.SITE_URL
+const currentPath = Astro.url.pathname // Current page path
+const fullUrl = `${baseUrl}${currentPath}` // Full URL of the current page
 
 interface Props {
-	title?: string;
-	description?: string;
-	image?: string;
-	reload?: boolean;
+	title?: string
+	description?: string
+	image?: string
+	reload?: boolean
+	header_title?: string
+	header_color1?: string
+	header_color2?: string
+	footer_color1?: string
 }
 
-const siteDetails = await getSeoDetails();
+const siteDetails = await getSeoDetails()
 const {
 	title = siteDetails.title,
 	description = siteDetails.tagline,
 	image = `${baseUrl}/favicon.png`,
 	reload = false,
-} = Astro.props;
+	header_title = '',
+	header_color1 = 'green',
+	header_color2 = 'gold',
+	footer_color1 = 'pink',
+} = Astro.props
 ---
 
 <!doctype html>
@@ -45,10 +53,33 @@ const {
 		{!reload && <ViewTransitions />}
 	</head>
 	<body>
-		<Header />
-		<main id='content' tabindex='-1'>
+		<Header
+			title={header_title}
+			color1={header_color1}
+			color2={header_color2}
+		/>
+		<main
+			id='content'
+			tabindex='-1'
+			class:list={[{ padded: header_title }]}>
 			<slot />
 		</main>
-		<Footer />
+		<Footer color1={footer_color1} />
 	</body>
 </html>
+
+<style lang='less'>
+	@import '../styles/variables.less';
+
+	main.padded {
+		@media @s-d {
+			padding-top: 80px;
+		}
+		@media @s-t {
+			padding-top: 60px;
+		}
+		@media @s-m {
+			padding-top: 60px;
+		}
+	}
+</style>

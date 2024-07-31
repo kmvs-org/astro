@@ -7,9 +7,12 @@ Variables
 	--fontSize: 18px;
 	--fontFamily1: 'Calibri';
 	--fontFamily2: 'Roboto Slab';
-	--color1: hsl(160, 13%, 33%);
-	--color2: hsl(31, 43%, 38%);
-	--color3: hsl(333, 57%, 41%);
+	--green: hsl(160, 13%, 33%);
+	--gold: hsl(30, 45%, 30%);
+	--pink: hsl(328, 68%, 34%);
+	--purple: hsl(298, 71%, 21%);
+	--orange: hsl(20, 66%, 35%);
+	--blue: hsl(218, 71%, 25%);
 	--bgC1: hsl(0, 0%, 100%);
 	--bgC2: hsl(160, 13%, 33%);
 	--bgC3: hsl(31, 43%, 38%);
@@ -19,9 +22,9 @@ Variables
 	--bdC1: hsla(0, 0%, 10%, 0.12);
 	--bdC2: hsla(0, 0%, 100%, 0.09);
 	--overlayC1: hsla(0, 0%, 0%, 0.2);
-	--buttonBgC1: var(--color1);
+	--buttonBgC1: var(--green);
 	--buttonTextC1: var(--textC2);
-	--buttonBgC2: var(--color1);
+	--buttonBgC2: var(--green);
 	--bdRadius1: 5px;
 	--shadow1: 0 3px 8px -2px #1a1a1a30;
 }
@@ -54,14 +57,14 @@ body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100lvh;
-
+	
 	background-color: var(--bgC1);
-
+	
 	.container {
 		max-width: 1300px;
 		margin-left: auto;
 		margin-right: auto;
-
+		
 		@media @s-nm {
 			padding-left: 50px;
 			padding-right: 50px;
@@ -71,38 +74,45 @@ body {
 			padding-right: 20px;
 		}
 	}
-
+	
 	.text-block {
 		white-space: pre-line;
 	}
 }
 
 each(range(9), {
-    @weight: (@value*100);
-
-    .w-@{weight} {
-        font-weight: @weight;
-    }
+	@weight: (@value*100);
+	
+	.w-@{weight} {
+		font-weight: @weight;
+	}
 });
 
 .hide {
 	display: none !important;
 }
 
+.full-width {
+	margin-left: calc( -50vw + 50%);
+	margin-right: calc( -50vw + 50%);
+	max-width: 100vw;
+	width: 100vw;
+}
+
 each(range(6), {
-    @size: 41px - @value * 3px;
-
-    h@{value} {
-        font-size: @size;
-        font-family: var(--fontFamily2), 'Courier New', Courier, monospace;
-        font-weight: 700;
-        margin-bottom: 15px;
-        word-break: break-word;
-
-        @media @s-m {
-            font-size: min(@size, 32px);
-        }
-    }
+	@size: 41px - @value * 3px;
+	
+	h@{value} {
+		font-size: @size;
+		font-family: var(--fontFamily2), 'Courier New', Courier, monospace;
+		font-weight: 700;
+		margin-bottom: 15px;
+		word-break: break-word;
+		
+		@media @s-m {
+			font-size: min(@size, 32px);
+		}
+	}
 });
 
 a {
@@ -110,7 +120,7 @@ a {
 	text-underline-offset: 3px;
 	text-decoration-thickness: 1.5px;
 	transition: 0.2s ease;
-
+	
 	&:hover,
 	&:focus-visible {
 		text-decoration-thickness: 3px;
@@ -127,11 +137,18 @@ body {
 
 .generate-spacing(@n, @i: 0) when (@i =< @n) {
 	@spacingSize: @i*10;
-
+	
 	.mb_@{spacingSize} {
 		margin-bottom: ~'@{spacingSize}px';
 	}
-
+	.mt_@{spacingSize} {
+		margin-top: ~'@{spacingSize}px';
+	}
+	.my_@{spacingSize} {
+		margin-bottom: ~'@{spacingSize}px';
+		margin-top: ~'@{spacingSize}px';
+	}
+	
 	.generate-spacing(@n, (@i + 1));
 }
 
@@ -141,9 +158,9 @@ Homepage Styling
 
 .heading {
 	font-weight: 400;
-	color: var(--color1);
+	color: var(--green);
 	margin-bottom: 50px;
-
+	
 	@media @s-d {
 		font-size: 80px;
 	}
@@ -166,7 +183,7 @@ Homepage Styling
 	@media @s-m {
 		gap: 10px;
 	}
-
+	
 	.previous-slide {
 		@media @s-d {
 			margin-top: 200px;
@@ -175,15 +192,17 @@ Homepage Styling
 			margin-top: 180px;
 		}
 		margin-top: 200px;
+		
 		.icon-caret-left {
 			height: 50px;
 			width: 25px;
-
+			
 			path {
-				fill: var(--color1);
+				fill: var(--green);
 			}
 		}
 	}
+	
 	.next-slide {
 		@media @s-d {
 			margin-top: 200px;
@@ -191,23 +210,24 @@ Homepage Styling
 		@media @s-nd {
 			margin-top: 180px;
 		}
+		
 		.icon-caret-right {
 			height: 50px;
 			width: 25px;
-
+			
 			path {
-				fill: var(--color1);
+				fill: var(--green);
 			}
 		}
 	}
-
+	
 	.slider {
 		width: max-content;
 		margin: auto;
 		display: flex;
 		flex-direction: row;
 		gap: 50px;
-
+		
 		.slide {
 			@media (min-width: 1201px) {
 				min-width: 300px;
@@ -233,20 +253,20 @@ Homepage Styling
 					display: none;
 				}
 			}
-
+			
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
-
+			
 			text-decoration: none;
 			transform: scale(1);
 			transition: transform 0.2s ease-out;
-
+			
 			&:hover,
 			&:focus-visible {
 				transform: scale(1.05);
 			}
-
+			
 			.image {
 				border-radius: var(--bdRadius1);
 				overflow: hidden;
@@ -317,17 +337,17 @@ button[type='submit'],
 .button,
 input[type='submit'] {
 	.buttonMixin();
-
+	
 	color: var(--buttonTextC1);
 	background-color: var(--buttonBgC1);
 	font-family: var(--fontFamily1);
 	border-radius: var(--bdRadius1);
 	padding: 13px 20px;
-
+	
 	display: inline-flex;
 	align-items: center;
 	gap: 10px;
-
+	
 	svg {
 		path {
 			fill: var(--buttonTextC1);
@@ -352,7 +372,7 @@ Accessibility
 
 .skip-link {
 	position: fixed;
-
+	
 	&:focus-visible {
 		clip: auto !important;
 		position: fixed;
@@ -372,67 +392,70 @@ Fonts
 
 @font-face {
 	font-family: 'Calibri';
-	src:
-		local('Calibri Light Italic'),
-		local('Calibri-LightItalic'),
-		url('/fonts/Calibri-LightItalic.woff2') format('woff2'),
-		url('/fonts/Calibri-LightItalic.woff') format('woff');
+	src: local('Calibri Light Italic'),
+	local('Calibri-LightItalic'),
+	url('/fonts/Calibri-LightItalic.woff2') format('woff2'),
+	url('/fonts/Calibri-LightItalic.woff') format('woff');
 	font-weight: 300;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Calibri';
-	src:
-		local('Calibri Italic'),
-		local('Calibri-Italic'),
-		url('/fonts/Calibri-Italic.woff2') format('woff2'),
-		url('/fonts/Calibri-Italic.woff') format('woff');
+	src: local('Calibri Italic'),
+	local('Calibri-Italic'),
+	url('/fonts/Calibri-Italic.woff2') format('woff2'),
+	url('/fonts/Calibri-Italic.woff') format('woff');
 	font-weight: normal;
 	font-style: italic;
 }
 
 @font-face {
 	font-family: 'Calibri';
-	src:
-		local('Calibri Light'),
-		local('Calibri-Light'),
-		url('/fonts/Calibri-Light.woff2') format('woff2'),
-		url('/fonts/Calibri-Light.woff') format('woff');
+	src: local('Calibri Light'),
+	local('Calibri-Light'),
+	url('/fonts/Calibri-Light.woff2') format('woff2'),
+	url('/fonts/Calibri-Light.woff') format('woff');
 	font-weight: 300;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Calibri';
-	src:
-		local('Calibri Bold'),
-		local('Calibri-Bold'),
-		url('/fonts/Calibri-Bold.woff2') format('woff2'),
-		url('/fonts/Calibri-Bold.woff') format('woff');
+	src: local('Calibri Bold'),
+	local('Calibri-Bold'),
+	url('/fonts/Calibri-Bold.woff2') format('woff2'),
+	url('/fonts/Calibri-Bold.woff') format('woff');
 	font-weight: bold;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Calibri';
-	src:
-		local('Calibri'),
-		url('/fonts/Calibri.woff2') format('woff2'),
-		url('/fonts/Calibri.woff') format('woff');
+	src: local('Calibri'),
+	url('/fonts/Calibri.woff2') format('woff2'),
+	url('/fonts/Calibri.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'Calibri';
-	src:
-		local('Calibri Bold Italic'),
-		local('Calibri-BoldItalic'),
-		url('Calibri-BoldItalic.woff2') format('woff2'),
-		url('Calibri-BoldItalic.woff') format('woff');
+	src: local('Calibri Bold Italic'),
+	local('Calibri-BoldItalic'),
+	url('Calibri-BoldItalic.woff2') format('woff2'),
+	url('Calibri-BoldItalic.woff') format('woff');
 	font-weight: bold;
 	font-style: italic;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Roboto Slab';
+	font-style: normal;
+	font-weight: 300;
+	src: url('/fonts/roboto-slab-v34-latin-300.woff2') format('woff2'),
+	url('/fonts/roboto-slab-v34-latin-300.ttf') format('truetype');
 }
 
 @font-face {
@@ -440,17 +463,25 @@ Fonts
 	font-family: 'Roboto Slab';
 	font-style: normal;
 	font-weight: 400;
-	src:
-		url('/fonts/roboto-slab-v34-latin-regular.woff2') format('woff2'),
-		url('/fonts/roboto-slab-v34-latin-regular.ttf') format('truetype');
+	src: url('/fonts/roboto-slab-v34-latin-regular.woff2') format('woff2'),
+	url('/fonts/roboto-slab-v34-latin-regular.ttf') format('truetype');
 }
 
 @font-face {
 	font-display: swap;
 	font-family: 'Roboto Slab';
 	font-style: normal;
-	font-weight: 700;
-	src:
-		url('/fonts/roboto-slab-v34-latin-700.woff2') format('woff2'),
-		url('/fonts/roboto-slab-v34-latin-700.ttf') format('truetype');
+	font-weight: 500;
+	src: url('/fonts/roboto-slab-v34-latin-500.woff2') format('woff2'),
+	url('/fonts/roboto-slab-v34-latin-500.ttf') format('truetype');
 }
+
+@font-face {
+	font-display: swap;
+	font-family: 'Roboto Slab';
+	font-style: normal;
+	font-weight: 600;
+	src: url('/fonts/roboto-slab-v34-latin-600.woff2') format('woff2'),
+	url('/fonts/roboto-slab-v34-latin-600.ttf') format('truetype');
+}
+

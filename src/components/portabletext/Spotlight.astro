@@ -1,0 +1,82 @@
+---
+const { text, color } = Astro.props.node || Astro.props
+---
+
+<div class='spotlight full-width' style={`background-color: var(--${color});`}>
+	<svg
+		class='divider-top'
+		preserveAspectRatio='none'
+		xmlns='http://www.w3.org/2000/svg'
+		viewBox='0 0 604 64.51'>
+		<path
+			d='M604,64c-3.31.18-6.62.53-9.92.5-72.01-.67-142.98-10.56-213.56-24.05-49.83-9.53-99.57-19.74-149.65-27.73C180.82,4.75,130.27.71,79.58,6.16c-15.63,1.68-31.13,5.26-46.45,8.99C20.94,18.12,9.83,23.99,0,32V0h604v64Z'
+		></path>
+	</svg>
+	<div class='container'>
+		<p>{text}</p>
+	</div>
+	<svg
+		class='divider-bottom'
+		preserveAspectRatio='none'
+		xmlns='http://www.w3.org/2000/svg'
+		viewBox='0 0 604 77.93'>
+		<path
+			d='M0,41.93c16.23-3.65,32.4-7.57,48.69-10.9,57.16-11.67,114.77-20.43,172.86-25.77,59.5-5.46,119.08-7.46,178.71-2.15,48.31,4.3,95.7,12.91,140.72,31.85,17.1,7.19,33.34,15.95,48.49,26.69,4.84,3.43,9.69,6.85,14.54,10.28v6H0C0,65.93,0,53.93,0,41.93Z'
+		></path>
+	</svg>
+</div>
+
+<style lang='less'>
+	@import '../../styles/variables.less';
+
+	.spotlight {
+		display: flex;
+		flex-direction: column;
+		margin-top: 50px;
+		margin-bottom: 50px;
+
+		[class^='divider'] {
+			width: 100%;
+			fill: var(--bgC1);
+
+			&.divider-top {
+				transform: translateY(-2px);
+				@media @s-m {
+					height: 50px;
+				}
+				@media @s-t {
+					height: 75px;
+				}
+				@media @s-d {
+					height: 100px;
+				}
+			}
+
+			&.divider-bottom {
+				transform: translateY(2px);
+				@media @s-m {
+					height: 60px;
+				}
+				@media @s-t {
+					height: 90px;
+				}
+				@media @s-d {
+					height: 120px;
+				}
+			}
+		}
+
+		.container {
+			padding-top: 25px;
+			padding-bottom: 25px;
+			color: var(--textC2);
+			max-width: 1000px;
+			margin: auto;
+			text-align: center;
+
+			p {
+				font-weight: 500;
+			}
+		}
+	}
+</style>

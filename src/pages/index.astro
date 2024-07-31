@@ -1,12 +1,12 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getHomepage } from '../../sanity/api';
-import { sanityUrl } from '../../sanity/image';
-import ProgrammesSlider from '../components/ProgrammesSlider.astro';
-import ImpactSlides from '../components/ImpactSlides.astro';
-import EventsSlider from '../components/EventsSlider.astro';
+import Layout from '../layouts/Layout.astro'
+import { getHomepage } from '../../sanity/api'
+import { sanityUrl } from '../../sanity/image'
+import ProgrammesSlider from '../components/ProgrammesSlider.astro'
+import ImpactSlides from '../components/ImpactSlides.astro'
+import EventsSlider from '../components/EventsSlider.astro'
 
-const homepage = await getHomepage();
+const homepage = await getHomepage()
 ---
 
 <Layout>
@@ -28,24 +28,28 @@ const homepage = await getHomepage();
 </Layout>
 
 <script>
-	const sliderWrappers = document.querySelectorAll('.slider-wrapper');
-	sliderWrappers.forEach((sliderWrapper) => {
-		const previousSlide = sliderWrapper.querySelector('.previous-slide');
-		const nextSlide = sliderWrapper.querySelector('.next-slide');
+	document.addEventListener('astro:page-load', setupSliders)
 
-		previousSlide?.addEventListener('click', () => {
-			const slider = sliderWrapper.querySelector('.slider');
-			const slides = slider.children;
-			const lastSlide = slides[slides.length - 1];
-			slider.insertBefore(lastSlide, slides[0]);
-		});
+	function setupSliders() {
+		const sliderWrappers = document.querySelectorAll('.slider-wrapper')
+		sliderWrappers.forEach((sliderWrapper) => {
+			const previousSlide = sliderWrapper.querySelector('.previous-slide')
+			const nextSlide = sliderWrapper.querySelector('.next-slide')
 
-		nextSlide?.addEventListener('click', () => {
-			const slider = sliderWrapper.querySelector('.slider');
-			const firstSlide = slider.children[0];
-			slider.appendChild(firstSlide);
-		});
-	});
+			previousSlide?.addEventListener('click', () => {
+				const slider = sliderWrapper.querySelector('.slider')
+				const slides = slider.children
+				const lastSlide = slides[slides.length - 1]
+				slider.insertBefore(lastSlide, slides[0])
+			})
+
+			nextSlide?.addEventListener('click', () => {
+				const slider = sliderWrapper.querySelector('.slider')
+				const firstSlide = slider.children[0]
+				slider.appendChild(firstSlide)
+			})
+		})
+	}
 </script>
 
 <style lang='less'>
@@ -55,7 +59,7 @@ const homepage = await getHomepage();
 		min-height: 650px;
 		background-size: cover;
 		background-repeat: no-repeat;
-		background-position: center;
+		background-position: top center;
 
 		.container {
 			padding-top: 200px;
@@ -75,10 +79,11 @@ const homepage = await getHomepage();
 				}
 
 				:global(.highlight) {
-					background-color: var(--color3);
+					background-color: var(--pink);
 					padding: 9px 14px 5px 14px;
 					border-radius: var(--bdRadius1);
 				}
+
 				:global(.small) {
 					font-size: 0.9em;
 				}
@@ -90,6 +95,7 @@ const homepage = await getHomepage();
 		.container {
 			padding-top: 75px;
 			padding-bottom: 75px;
+
 			p {
 				max-width: 800px;
 				margin: auto;

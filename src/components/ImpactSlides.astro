@@ -1,5 +1,5 @@
 ---
-const { impact } = Astro.props;
+const { impact } = Astro.props
 ---
 
 <section class='impact'>
@@ -19,14 +19,12 @@ const { impact } = Astro.props;
 	<div class='statistics'>
 		<div class='container'>
 			{
-				impact.map((stat) => {
-					return (
-						<div class='stat'>
-							<h3>{stat.number.toLocaleString()}</h3>
-							<p>{stat.description}</p>
-						</div>
-					);
-				})
+				impact.map((stat) => (
+					<div class='stat'>
+						<h3>{stat.number.toLocaleString()}</h3>
+						<p>{stat.description}</p>
+					</div>
+				))
 			}
 		</div>
 	</div>
@@ -38,6 +36,7 @@ const { impact } = Astro.props;
 	.impact {
 		margin-bottom: 75px;
 		overflow: hidden;
+
 		.divider {
 			@media @s-d {
 				width: 100%;
@@ -50,13 +49,15 @@ const { impact } = Astro.props;
 			}
 			height: 50px;
 			display: flex;
+			transform: translateY(2px);
+
 			path {
-				fill: var(--color2);
+				fill: var(--gold);
 			}
 		}
 
 		.statistics {
-			background-color: var(--color2);
+			background-color: var(--gold);
 			padding-top: 30px;
 			padding-bottom: 50px;
 			color: var(--textC2);
@@ -65,9 +66,10 @@ const { impact } = Astro.props;
 			.container {
 				display: flex;
 				flex-direction: row;
-				flex-wrap: nowrap;
+				flex-wrap: wrap;
 				gap: 30px;
-				overflow: scroll;
+				align-items: flex-start;
+				justify-content: center;
 
 				.stat {
 					min-width: 210px;

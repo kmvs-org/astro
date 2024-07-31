@@ -1,4 +1,4 @@
-import { sanityClient as client } from 'sanity:client';
+import { sanityClient as client } from 'sanity:client'
 
 export async function getSeoDetails() {
 	const seoDetails = await client.fetch(`
@@ -6,8 +6,8 @@ export async function getSeoDetails() {
                 title,
                 tagline,
             }[0]
-        `);
-	return seoDetails;
+        `)
+	return seoDetails
 }
 
 export async function getSocials() {
@@ -19,8 +19,8 @@ export async function getSocials() {
                 linkedin,
                 youtube,
             }[0]
-        `);
-	return socials;
+        `)
+	return socials
 }
 
 export async function getHeader() {
@@ -35,8 +35,8 @@ export async function getHeader() {
                 }
             }
         }[0]
-    `);
-	return header;
+    `)
+	return header
 }
 
 export async function getFooter() {
@@ -48,8 +48,8 @@ export async function getFooter() {
                 link,
             }
         }[0]
-    `);
-	return footer;
+    `)
+	return footer
 }
 
 export async function getHomepage() {
@@ -63,8 +63,8 @@ export async function getHomepage() {
                 description,
                 }
             }[0]
-        `);
-	return homepage;
+        `)
+	return homepage
 }
 
 export async function getProgrammesShort() {
@@ -74,8 +74,8 @@ export async function getProgrammesShort() {
                 image,
                 excerpt,
             }
-        `);
-	return programmes;
+        `)
+	return programmes
 }
 
 export async function getProgrammes() {
@@ -84,27 +84,33 @@ export async function getProgrammes() {
                 title,
                 image,
                 excerpt,
+                banner {
+                	image,
+					title,
+					subtitle,
+                },
+                content,
             }
-        `);
-	return programmes;
+        `)
+	return programmes
 }
 
 export async function getEventsShort() {
 	const events = await client.fetch(`
-            *[_type == "event"] | order(dates.start desc) {
+            *[_type == "event"] | order(dates.start desc) [0...9] {
                 title,
                 image,
                 excerpt,
             }
-        `);
-	return events;
+        `)
+	return events
 }
 
 export async function getAddress() {
 	const siteDetails = await client.fetch(
 		`*[_type == "siteDetails"]{
             address,
-        }[0]`
-	);
-	return siteDetails.address;
+        }[0]`,
+	)
+	return siteDetails.address
 }
