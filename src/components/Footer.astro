@@ -56,26 +56,35 @@ const { color1 } = Astro.props
 							class='tab-content selected'
 							role='tabpanel'
 							aria-labelledby='tab_1'>
-							<form action='' method='POST'>
+							<form
+								name='contact'
+								method='POST'
+								data-netlify='true'>
 								<input
 									type='text'
 									name='name'
 									placeholder='Name'
+									aria-label='Name'
 									required
 								/>
 								<input
 									type='email'
 									name='email'
 									placeholder='Email Address'
+									aria-label='Email Address'
 									required
 								/>
 								<input
 									type='text'
 									name='phone'
 									placeholder='Mobile Number'
+									aria-label='Mobile Number'
 								/>
-								<textarea placeholder='Message' required
-								></textarea>
+								<textarea
+									placeholder='Message'
+									name='message'
+									aria-label='Message'
+									required></textarea>
 								<button type='submit'>Submit</button>
 							</form>
 						</div>
@@ -83,15 +92,20 @@ const { color1 } = Astro.props
 							class='tab-content'
 							role='tabpanel'
 							aria-labelledby='tab_2'>
-							<form action='' method='POST'>
+							<form
+								name='newsletter'
+								method='POST'
+								data-netlify='true'>
 								<input
 									type='text'
 									placeholder='Name'
+									aria-label='Name'
 									required
 								/>
 								<input
 									type='email'
 									placeholder='Email Address'
+									aria-label='Email Address'
 									required
 								/>
 								<button type='submit'>Subscribe</button>
