@@ -1,5 +1,4 @@
 ---
-import { ViewTransitions } from 'astro:transitions'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import '../styles/main.less'
@@ -21,10 +20,10 @@ interface Props {
 	footer_color1?: string
 }
 
-const siteDetails = await getSeoDetails()
+const seoDetails = await getSeoDetails()
 const {
-	title = siteDetails.title,
-	description = siteDetails.tagline,
+	title = seoDetails.title,
+	description = seoDetails.tagline,
 	image = `${baseUrl}/favicon.png`,
 	reload = false,
 	header_title = '',
@@ -38,19 +37,19 @@ const {
 <html lang='en'>
 	<head>
 		<meta charset='UTF-8' />
-		<meta name='description' content={siteDetails.tagline} />
+		<meta name='description' content={seoDetails.tagline} />
 		<meta name='viewport' content='width=device-width' />
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 		<link rel='manifest' href='/site.webmanifest' />
 		<!-- Open Graph Tags -->
 		<meta property='og:type' content='website' />
 		<meta property='og:title' content={title} />
-		<meta property='og:site_name' content={siteDetails.title} />
+		<meta property='og:site_name' content={seoDetails.title} />
 		<meta property='og:description' content={description} />
 		<meta property='og:image' content={image} />
 		<meta property='og:url' content={fullUrl} />
 		<title>{title}</title>
-		{!reload && <ViewTransitions />}
+		<!--{!reload && <ViewTransitions />}-->
 	</head>
 	<body>
 		<Header

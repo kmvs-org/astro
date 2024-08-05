@@ -44,14 +44,7 @@ const { title, color1, color2 } = Astro.props
 						</path>
 					</svg>
 				</button>
-				<button
-					type='button'
-					id='translate_trigger'
-					class='translate-trigger'
-					title='Translate to Gujarati'
-					aria-label='Translate to Gujarati'>
-					GUJ
-				</button>
+				<div class='gtranslate_wrapper'></div>
 				<Socials />
 			</div>
 		</div>
@@ -128,9 +121,21 @@ const { title, color1, color2 } = Astro.props
 </header>
 
 <script>
-	document.addEventListener('astro:page-load', setupHeader)
+	setupHeader()
+
+	// document.addEventListener('astro:page-load', setupHeader)
 
 	function setupHeader() {
+		window.gtranslateSettings = {
+			default_language: 'en',
+			languages: ['en', 'gu'],
+			wrapper_selector: '.gtranslate_wrapper',
+		}
+
+		const script = document.createElement('script')
+		script.src = 'https://cdn.gtranslate.net/widgets/latest/lc.js'
+		document.head.appendChild(script)
+
 		const flyoutTrigger = document.getElementById('flyout_trigger')
 		const headerNav = document.getElementById('header_nav')
 		flyoutTrigger.addEventListener('click', function () {
@@ -230,7 +235,7 @@ const { title, color1, color2 } = Astro.props
 						}
 					}
 
-					.translate-trigger {
+					.gtranslate_wrapper {
 						color: var(--color1);
 						font-weight: 700;
 						font-size: 24px;
@@ -238,6 +243,10 @@ const { title, color1, color2 } = Astro.props
 
 						@media @s-d {
 							margin-right: 60px;
+						}
+
+						:global(.gt-current-lang) {
+							display: none;
 						}
 					}
 

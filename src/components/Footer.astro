@@ -106,7 +106,7 @@ const { color1 } = Astro.props
 		<div class='container'>
 			<img
 				src={sanityUrl(footer.logo).width(500).auto('format').url()}
-				alt={footer.logo.alt}
+				alt='Kutch Mahila Vikas Sangathan Logo'
 				class='footer-logo'
 			/>
 			<div class='footer-menu'>
@@ -129,7 +129,9 @@ const { color1 } = Astro.props
 </footer>
 
 <script>
-	document.addEventListener('astro:page-load', setupFooter)
+	// document.addEventListener('astro:page-load', setupFooter)
+
+	setupFooter()
 
 	function setupFooter() {
 		const tabButtons = document.querySelectorAll('.tab-button')

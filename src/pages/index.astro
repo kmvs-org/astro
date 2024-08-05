@@ -28,7 +28,9 @@ const homepage = await getHomepage()
 </Layout>
 
 <script>
-	document.addEventListener('astro:page-load', setupSliders)
+	// document.addEventListener('astro:page-load', setupSliders)
+
+	setupSliders()
 
 	function setupSliders() {
 		const sliderWrappers = document.querySelectorAll('.slider-wrapper')
