@@ -1,0 +1,29 @@
+---
+import { sanityUrl } from '../../../sanity/image'
+const image = Astro.props.node || Astro.props
+if (!image) {
+	console.error('Unable to resolve image URL from source (undefined)')
+}
+---
+
+{
+	image && (
+		<img
+			src={sanityUrl(image).width(600).auto('format').url()}
+			alt={image.alt || 'Image'}
+		/>
+	)
+}
+
+<style lang='less'>
+	img {
+		display: block;
+		max-width: 600px;
+		max-height: 600px;
+		width: 100%;
+		margin: 50px auto;
+		border-radius: var(--bdRadius1);
+		overflow: hidden;
+		box-shadow: var(--shadow1);
+	}
+</style>

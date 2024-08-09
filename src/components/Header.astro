@@ -123,8 +123,6 @@ const { title, color1, color2 } = Astro.props
 <script>
 	setupHeader()
 
-	// document.addEventListener('astro:page-load', setupHeader)
-
 	function setupHeader() {
 		window.gtranslateSettings = {
 			default_language: 'en',
@@ -329,7 +327,7 @@ const { title, color1, color2 } = Astro.props
 
 					@media @s-d {
 						flex-direction: row;
-						gap: 50px;
+						gap: 22px;
 					}
 
 					@media @s-nd {
@@ -347,8 +345,16 @@ const { title, color1, color2 } = Astro.props
 						position: relative;
 
 						@media @s-d {
+							&:not(:last-child) {
+								.submenu {
+									left: 0;
+								}
+							}
+
 							&:last-child {
-								width: 200px;
+								.submenu {
+									right: 0;
+								}
 							}
 						}
 
@@ -389,7 +395,6 @@ const { title, color1, color2 } = Astro.props
 								background-color: var(--color1);
 
 								position: absolute;
-								left: 0;
 								z-index: 1;
 							}
 

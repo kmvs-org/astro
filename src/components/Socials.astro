@@ -1,8 +1,8 @@
 ---
-import { getSocials } from '../../sanity/api';
-const socials = await getSocials();
+import { getSocials } from '../../sanity/api'
+const socials = await getSocials()
 
-const { color = 'var(--color1)' } = Astro.props;
+const { color = 'var(--color1)' } = Astro.props
 ---
 
 <div class='social-links'>
@@ -101,14 +101,37 @@ const { color = 'var(--color1)' } = Astro.props;
 		flex-wrap: nowrap;
 		justify-content: center;
 		align-items: center;
-		gap: 12px;
 
 		a {
 			display: flex;
+
 			svg {
-				height: 28px;
 				path {
 					fill: var(--color);
+				}
+			}
+		}
+	}
+</style>
+
+<style lang='less' is:global>
+	.social-links {
+		gap: 12px;
+
+		a {
+			svg {
+				height: 28px;
+			}
+		}
+	}
+
+	header {
+		.social-links {
+			gap: 10px;
+
+			a {
+				svg {
+					height: 24px;
 				}
 			}
 		}

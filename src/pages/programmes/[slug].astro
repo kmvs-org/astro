@@ -32,30 +32,17 @@ const image_url = image
 const banner_image_url = banner?.image
 	? sanityUrl(banner.image).size(1200, 620).auto('format').url()
 	: ''
-const color1 =
-	title == 'Hello Sakhi'
-		? 'purple'
-		: title == 'Sushasini'
-			? 'green'
-			: title == 'Yuva Vani' || 'Yuvavani'
-				? 'orange'
-				: 'green'
-const color2 =
-	title == 'Hello Sakhi'
-		? 'gold'
-		: title == 'Sushasini'
-			? 'pink'
-			: title == 'Yuva Vani' || 'Yuvavani'
-				? 'blue'
-				: 'gold'
-const color3 =
-	title == 'Hello Sakhi'
-		? 'gold'
-		: title == 'Sushasini'
-			? 'green'
-			: title == 'Yuva Vani' || 'Yuvavani'
-				? 'blue'
-				: 'pink'
+const colorMap = {
+	'Hello Sakhi': { color1: 'purple', color2: 'gold', color3: 'gold' },
+	Sushasini: { color1: 'green', color2: 'pink', color3: 'green' },
+	'Yuva Vani': { color1: 'orange', color2: 'blue', color3: 'blue' },
+	Yuvavani: { color1: 'orange', color2: 'blue', color3: 'blue' },
+	'Maro Awaaj': { color1: 'grey', color2: 'gold', color3: 'gold' },
+	Samvedna: { color1: 'grey', color2: 'red', color3: 'red' },
+}
+
+const defaultColors = { color1: 'green', color2: 'gold', color3: 'pink' }
+const { color1, color2, color3 } = colorMap[title] || defaultColors
 ---
 
 <Layout

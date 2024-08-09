@@ -7,7 +7,6 @@ export default defineConfig({
 	integrations: [sanity({
 		projectId: 'k53lfb44',
 		dataset: 'production',
-		// Set useCdn to false if you're building statically.
-		useCdn: false
+		useCdn: false // `false` if you want to ensure fresh data
 	})]
 })
